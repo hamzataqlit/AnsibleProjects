@@ -1,0 +1,24 @@
+---
+- name: Install Grafana & Jenkins with Docker
+  hosts: servers
+  become: true
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        update_cache: yes
+        state: present
+
+    - name: Pull Grafana Docker image
+      command: docker pull grafana/grafana
+
+    - name: Start Grafana container
+      docker_container:
+        name: grafana
+        image: grafana/grafana
+        restart_policy: always
+        ports:
+          - "3000:3000"
+
+    
+
